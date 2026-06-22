@@ -5,3 +5,5 @@ coverage
 .chroma
 *.log
 .DS_Store
+PRIVATE_AI_LEARNING_PLAN.md
+PRIVATE_LEARNING/

@@ -3,10 +3,14 @@ import express from "express";
 import {
   ingestDocument,
 } from "../vector/ingestion.service.js";
+import {
+  ingestRequestSchema,
+  validateBody,
+} from "../validation.js";
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/", validateBody(ingestRequestSchema), async (req, res) => {
 
   try {
 

@@ -8,12 +8,6 @@ import {buildRAGContext,} from "../vector/rag.service.js";
 export const chatHandler = async (req,res) => {
   try {
     let {message,conversationId,} = req.body;
-    if (!message) {
-      return res.status(400).json({
-        success: false,
-        message: "Message is required",
-      });
-    }
     if (!conversationId) {
       conversationId = uuidv4();
     }

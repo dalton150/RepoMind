@@ -52,13 +52,5 @@ export const buildConversationContext = async (
       -MAX_CONTEXT_MESSAGES
     );
 
-  return [
-    {
-      role: "system",
-      content:
-        "You are a senior AI backend engineering assistant.",
-    },
-
-    ...recentMessages,
-  ];
+  return recentMessages;
 };

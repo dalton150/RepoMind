@@ -17,10 +17,15 @@ export const generateChatResponse = async ({
     const finalPrompt = `
 You are a senior AI backend engineering assistant.
 
-Use the provided knowledge context
-to answer accurately.
+Rules:
+- Answer in simple and clear English.
+- Use the knowledge context only when it is relevant to the user's question.
+- If the knowledge context is empty or does not contain the answer, say that the available context does not contain enough information.
+- Do not invent facts, file names, APIs, or project details that are not present in the conversation or knowledge context.
+- If the question is general and does not require private knowledge, answer from general AI/backend knowledge.
 
-${knowledgeContext}
+Knowledge Context:
+${knowledgeContext || "No relevant knowledge context was found."}
 
 Conversation:
 

@@ -23,9 +23,18 @@ export const semanticSearch = async (
       await collection.query({
         queryEmbeddings: [embedding],
         nResults: limit,
+        include: ["documents", "metadatas", "distances"],
       });
 
-    return results.documents?.[0] || [];
+    const documents = results.documents?.[0] || [];
+    const metadatas = results.metadatas?.[0] || [];
+    const distances = results.distances?.[0] || [];
+
+    return documents.map((document, index) => ({
+      text: document,
+      metadata: metadatas[index] || {},
+      distance: distances[index],
+    }));
 
   } catch (error) {
 

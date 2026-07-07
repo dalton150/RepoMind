@@ -18,10 +18,27 @@ export const buildRAGContext = async (
       return "";
     }
 
+    const formattedResults = results
+      .map((result, index) => {
+        const source =
+          result.metadata?.source || "unknown";
+        const distance =
+          typeof result.distance === "number"
+            ? result.distance.toFixed(4)
+            : "unknown";
+
+        return `Chunk ${index + 1}
+Source: ${source}
+Distance: ${distance}
+Content:
+${result.text}`;
+      })
+      .join("\n\n");
+
     return `
 Relevant Knowledge Context:
 
-${results.join("\n\n")}
+${formattedResults}
 `;
 
   } catch (error) {

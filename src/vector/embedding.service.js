@@ -1,4 +1,5 @@
 import axios from "axios";
+import { config } from "../config/runtime.config.js";
 
 export const generateEmbedding = async (
   text
@@ -7,9 +8,9 @@ export const generateEmbedding = async (
   try {
 
     const response = await axios.post(
-      "http://localhost:11434/api/embeddings",
+      config.ollama.embeddingsUrl,
       {
-        model: "nomic-embed-text",
+        model: config.ollama.embeddingModel,
         prompt: text,
       }
     );

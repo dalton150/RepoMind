@@ -1,4 +1,5 @@
 import axios from "axios";
+import { config } from "../config/runtime.config.js";
 
 export const generateChatResponse = async ({
   messages,
@@ -29,9 +30,9 @@ ASSISTANT:
 `;
     console.log("FINAL PROMPT:\n",finalPrompt);
     const response = await axios.post(
-      "http://localhost:11434/api/generate",
+      config.ollama.generateUrl,
       {
-        model: "gemma:2b",
+        model: config.ollama.chatModel,
 
         prompt: finalPrompt,
 

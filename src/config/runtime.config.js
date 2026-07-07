@@ -1,6 +1,14 @@
 import "dotenv/config";
 
 const trimTrailingSlash = (value) => value.replace(/\/$/, "");
+const parseOptionalNumber = (value) => {
+  if (!value) {
+    return null;
+  }
+
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+};
 
 const OLLAMA_BASE_URL = trimTrailingSlash(
   process.env.OLLAMA_BASE_URL || "http://localhost:11434"
@@ -19,5 +27,8 @@ export const config = {
   },
   chroma: {
     url: process.env.CHROMA_URL || "http://localhost:8000",
+  },
+  rag: {
+    maxDistance: parseOptionalNumber(process.env.RAG_MAX_DISTANCE),
   },
 };

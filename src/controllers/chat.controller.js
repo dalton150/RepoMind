@@ -17,7 +17,10 @@ export const chatHandler = async (req,res) => {
       message
     );
     const messages = await buildConversationContext(conversationId);
-    const knowledgeContext = await buildRAGContext(message);
+    const {
+      context: knowledgeContext,
+      sources,
+    } = await buildRAGContext(message);
 
     const aiResponse = await generateChatResponse({messages,knowledgeContext,});
     await addMessageToConversation(
@@ -29,6 +32,7 @@ export const chatHandler = async (req,res) => {
       success: true,
       conversationId,
       data: aiResponse,
+      sources,
     });
   } catch (error) {
     console.error(error);

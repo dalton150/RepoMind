@@ -5,6 +5,7 @@ import {
 import {
   generateEmbedding,
 } from "./embedding.service.js";
+import { config } from "../config/runtime.config.js";
 
 export const semanticSearch = async (
   query,
@@ -30,11 +31,21 @@ export const semanticSearch = async (
     const metadatas = results.metadatas?.[0] || [];
     const distances = results.distances?.[0] || [];
 
-    return documents.map((document, index) => ({
+    const matches = documents.map((document, index) => ({
       text: document,
       metadata: metadatas[index] || {},
       distance: distances[index],
     }));
+
+    if (typeof config.rag.maxDistance !== "number") {
+      return matches;
+    }
+
+    return matches.filter(
+      (match) =>
+        typeof match.distance === "number" &&
+        match.distance <= config.rag.maxDistance
+    );
 
   } catch (error) {
 

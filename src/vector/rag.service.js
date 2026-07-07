@@ -15,8 +15,18 @@ export const buildRAGContext = async (
       !results ||
       results.length === 0
     ) {
-      return "";
+      return {
+        context: "",
+        sources: [],
+      };
     }
+
+    const sources = results.map((result, index) => ({
+      chunk: index + 1,
+      source: result.metadata?.source || "unknown",
+      distance: result.distance,
+      metadata: result.metadata || {},
+    }));
 
     const formattedResults = results
       .map((result, index) => {
@@ -35,11 +45,14 @@ ${result.text}`;
       })
       .join("\n\n");
 
-    return `
+    return {
+      context: `
 Relevant Knowledge Context:
 
 ${formattedResults}
-`;
+`,
+      sources,
+    };
 
   } catch (error) {
 
@@ -48,6 +61,9 @@ ${formattedResults}
       error.message
     );
 
-    return "";
+    return {
+      context: "",
+      sources: [],
+    };
   }
 };

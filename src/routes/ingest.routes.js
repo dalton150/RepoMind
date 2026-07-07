@@ -7,34 +7,25 @@ import {
   ingestRequestSchema,
   validateBody,
 } from "../validation.js";
+import { asyncHandler } from "../middleware/async-handler.js";
 
 const router = express.Router();
 
-router.post("/", validateBody(ingestRequestSchema), async (req, res) => {
+router.post("/", validateBody(ingestRequestSchema), asyncHandler(async (req, res) => {
 
-  try {
+  const { text, source } =
+    req.body;
 
-    const { text, source } =
-      req.body;
-
-    const result =
-      await ingestDocument({
-        text,
-        source,
-      });
-
-    return res.json({
-      success: true,
-      data: result,
+  const result =
+    await ingestDocument({
+      text,
+      source,
     });
 
-  } catch (error) {
-
-    return res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-});
+  return res.json({
+    success: true,
+    data: result,
+  });
+}));
 
 export default router;

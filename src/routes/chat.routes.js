@@ -4,13 +4,14 @@ import {
   chatRequestSchema,
   validateBody,
 } from "../validation.js";
+import { asyncHandler } from "../middleware/async-handler.js";
 
 const router = express.Router();
 
 router.post(
   "/",
   validateBody(chatRequestSchema),
-  chatHandler
+  asyncHandler(chatHandler)
 );
 
 export default router;

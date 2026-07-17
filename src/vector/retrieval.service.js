@@ -6,6 +6,9 @@ import {
   generateEmbedding,
 } from "./embedding.service.js";
 import { config } from "../config/runtime.config.js";
+import {
+  filterMatchesByDistance,
+} from "./retrieval.utils.js";
 
 export const semanticSearch = async (
   query,
@@ -37,14 +40,9 @@ export const semanticSearch = async (
       distance: distances[index],
     }));
 
-    if (typeof config.rag.maxDistance !== "number") {
-      return matches;
-    }
-
-    return matches.filter(
-      (match) =>
-        typeof match.distance === "number" &&
-        match.distance <= config.rag.maxDistance
+    return filterMatchesByDistance(
+      matches,
+      config.rag.maxDistance
     );
 
   } catch (error) {

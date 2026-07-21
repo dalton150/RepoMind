@@ -24,11 +24,15 @@ export const config = {
     chatModel: process.env.OLLAMA_CHAT_MODEL || "gemma:2b",
     embeddingModel:
       process.env.OLLAMA_EMBEDDING_MODEL || "nomic-embed-text",
+    numPredict: Number(process.env.OLLAMA_NUM_PREDICT || 250) || 250,
   },
   chroma: {
     url: process.env.CHROMA_URL || "http://localhost:8000",
   },
   rag: {
     maxDistance: parseOptionalNumber(process.env.RAG_MAX_DISTANCE),
+  },
+  tools: {
+    maxSteps: Number(process.env.TOOL_MAX_STEPS || 3) || 3,
   },
 };
